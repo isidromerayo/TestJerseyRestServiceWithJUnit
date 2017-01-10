@@ -1,6 +1,7 @@
 package net.estilolibre.demo.ws.resource;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ import org.junit.Test;
 
 import net.estilolibre.demo.ws.dto.Notification;
 
-public class NotificationRestServiceTest extends JerseyTest {
+public class NotificationRestServiceIT extends JerseyTest {
 
 	@Override
     public Application configure() {
@@ -30,6 +31,8 @@ public class NotificationRestServiceTest extends JerseyTest {
         Response output = target("/notifications").request().get();
         assertEquals("should return status 200", 200, output.getStatus());
         assertNotNull("Should return list", output.getEntity());
+        List<Notification> notification = output.readEntity(new GenericType<List<Notification>>() {});
+        assertEquals(2, notification.size());
     }
 
     @Test
